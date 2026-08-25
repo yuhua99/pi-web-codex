@@ -1,0 +1,57 @@
+{
+  "name": "@yuhua99/pi-web-codex",
+  "version": "0.1.0",
+  "description": "Codex-style `web.run` tool for the Pi coding agent",
+  "license": "MIT",
+  "files": [
+    "**/*.ts"
+  ],
+  "type": "module",
+  "main": "index.ts",
+  "scripts": {
+    "test": "node --test",
+    "fmt": "oxfmt",
+    "lint": "oxlint",
+    "typecheck": "oxlint --type-aware --type-check"
+  },
+  "devDependencies": {
+    "@earendil-works/pi-coding-agent": "0.83.0",
+    "@earendil-works/pi-tui": "0.83.0",
+    "@types/node": "^25.2.3",
+    "oxfmt": "^0.63.0",
+    "oxlint": "^1.69.0",
+    "oxlint-tsgolint": "^7.0.2001"
+  },
+  "peerDependencies": {
+    "@earendil-works/pi-agent-core": "*",
+    "@earendil-works/pi-ai": "*",
+    "@earendil-works/pi-coding-agent": "*",
+    "@earendil-works/pi-tui": "*",
+    "typebox": "*"
+  },
+  "peerDependenciesMeta": {
+    "@earendil-works/pi-agent-core": {
+      "optional": true
+    },
+    "@earendil-works/pi-coding-agent": {
+      "optional": true
+    },
+    "@earendil-works/pi-tui": {
+      "optional": true
+    },
+    "@earendil-works/pi-ai": {
+      "optional": true
+    },
+    "typebox": {
+      "optional": true
+    }
+  },
+  "pi": {
+    "extensions": [
+      "./index.ts"
+    ]
+  },
+  "keywords": [
+    "pi-package"
+  ]
+}
