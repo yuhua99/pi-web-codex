@@ -5,6 +5,8 @@ This is `@yuhua99/pi-web-codex`, a Pi extension for a Codex-style `web.run` tool
 One owner per file. Do not create catch-all modules (`utils.ts`, `helpers.ts`, `common.ts`, `shared.ts`); use domain names.
 
 - `index.ts` — tool registration and event wiring only
+- `schema.ts` — TypeBox of SearchCommands (tool parameters)
+- `client.ts` — POST SearchRequest, parse SearchResponse, abort via signal
 - `test/` — `*.test.mjs` suites; import `.ts` directly under `node --test` (no build step, no runtime TS syntax: enums, namespaces, parameter properties)
 
 Keep source files under ~600 LOC; split by ownership before adding more logic.
