@@ -71,6 +71,38 @@ test("posts only the Codex search request fields", async (t) => {
   assert.equal("reasoning" in body, false);
 });
 
+test("omits empty command arrays from the request body", async (t) => {
+  let request;
+  mockFetch(t, async (_url, init) => {
+    request = init;
+    return new Response(JSON.stringify({ output: "done" }));
+  });
+
+  await search(
+    options({
+      commands: {
+        search_query: [{ q: "Codex" }],
+        image_query: [],
+        open: [{ ref_id: "r1" }],
+        click: [],
+        find: [],
+        screenshot: [],
+        finance: [],
+        weather: [],
+        sports: [],
+        time: [],
+        response_length: "long",
+      },
+    }),
+  );
+
+  assert.deepEqual(JSON.parse(request.body).commands, {
+    search_query: [{ q: "Codex" }],
+    open: [{ ref_id: "r1" }],
+    response_length: "long",
+  });
+});
+
 test("sends only the required search headers", async (t) => {
   let headers;
   const token = makeJwt();

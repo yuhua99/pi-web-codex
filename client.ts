@@ -119,7 +119,9 @@ export async function search(options: SearchOptions): Promise<SearchResponse> {
     body: JSON.stringify({
       id: options.id,
       model: options.model,
-      commands: options.commands,
+      commands: Object.fromEntries(
+        Object.entries(options.commands).filter(([, value]) => !Array.isArray(value) || value.length > 0),
+      ),
       settings: { allowed_callers: ["direct"], external_web_access: true },
     }),
     signal: options.signal,
