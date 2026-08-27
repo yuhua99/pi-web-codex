@@ -10,7 +10,11 @@ const makeJwt = () => {
 
 const register = () => {
   let tool;
-  extension({ registerTool(definition) { tool = definition; } });
+  extension({
+    registerTool(definition) {
+      tool = definition;
+    },
+  });
   return tool;
 };
 
@@ -36,8 +40,14 @@ test("registers the web tool", () => {
 
   assert.equal(tool.name, "web");
   assert.equal(tool.parameters, webParameters);
-  assert.equal(tool.promptSnippet, "Search the web, open pages, look up finance, weather, sports, and time");
-  assert.equal(tool.promptGuidelines.every((guideline) => guideline.includes("web")), true);
+  assert.equal(
+    tool.promptSnippet,
+    "Search the web, open pages, look up finance, weather, sports, and time",
+  );
+  assert.equal(
+    tool.promptGuidelines.every((guideline) => guideline.includes("web")),
+    true,
+  );
 });
 
 test("rejects four search queries without medium or long response_length", async () => {
@@ -60,7 +70,10 @@ test("requires openai-codex auth before fetching", async (t) => {
     return new Response();
   });
 
-  await assert.rejects(register().execute("call_1", {}, undefined, undefined, context()), /\/login openai-codex/);
+  await assert.rejects(
+    register().execute("call_1", {}, undefined, undefined, context()),
+    /\/login openai-codex/,
+  );
   assert.equal(fetched, false);
 });
 
@@ -137,7 +150,10 @@ test("uses the active openai-codex model", async (t) => {
     {},
     undefined,
     undefined,
-    context({ auth: { auth: { apiKey: makeJwt() } }, model: { provider: "openai-codex", id: "gpt-5.5-codex" } }),
+    context({
+      auth: { auth: { apiKey: makeJwt() } },
+      model: { provider: "openai-codex", id: "gpt-5.5-codex" },
+    }),
   );
 
   assert.equal(body.model, "gpt-5.5-codex");

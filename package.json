@@ -2,6 +2,9 @@
   "name": "@yuhua99/pi-web-codex",
   "version": "0.1.0",
   "description": "Codex-style `web.run` tool for the Pi coding agent",
+  "keywords": [
+    "pi-package"
+  ],
   "license": "MIT",
   "files": [
     "**/*.ts"
@@ -50,8 +53,5 @@
     "extensions": [
       "./index.ts"
     ]
-  },
-  "keywords": [
-    "pi-package"
-  ]
+  }
 }

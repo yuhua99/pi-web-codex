@@ -91,7 +91,9 @@ function extractAccountId(token: string): string {
     const parts = token.split(".");
     if (parts.length !== 3) throw new Error();
     const encodedPayload = parts[1].replace(/-/g, "+").replace(/_/g, "/");
-    const payload: unknown = JSON.parse(atob(encodedPayload.padEnd(Math.ceil(encodedPayload.length / 4) * 4, "=")));
+    const payload: unknown = JSON.parse(
+      atob(encodedPayload.padEnd(Math.ceil(encodedPayload.length / 4) * 4, "=")),
+    );
     if (!payload || typeof payload !== "object") throw new Error();
     const auth = (payload as Record<string, unknown>)[JWT_CLAIM_PATH];
     if (!auth || typeof auth !== "object") throw new Error();
@@ -120,7 +122,9 @@ export async function search(options: SearchOptions): Promise<SearchResponse> {
       id: options.id,
       model: options.model,
       commands: Object.fromEntries(
-        Object.entries(options.commands).filter(([, value]) => !Array.isArray(value) || value.length > 0),
+        Object.entries(options.commands).filter(
+          ([, value]) => !Array.isArray(value) || value.length > 0,
+        ),
       ),
       settings: { allowed_callers: ["direct"], external_web_access: true },
     }),
@@ -128,8 +132,12 @@ export async function search(options: SearchOptions): Promise<SearchResponse> {
   });
 
   if (!response.ok) {
-    const excerpt = redact(await response.text(), options.token).slice(0, 200).trim();
-    throw new Error(`Search request failed with status ${response.status}${excerpt ? `: ${excerpt}` : ""}`);
+    const excerpt = redact(await response.text(), options.token)
+      .slice(0, 200)
+      .trim();
+    throw new Error(
+      `Search request failed with status ${response.status}${excerpt ? `: ${excerpt}` : ""}`,
+    );
   }
 
   let body: unknown;
@@ -138,7 +146,11 @@ export async function search(options: SearchOptions): Promise<SearchResponse> {
   } catch {
     throw new Error("Search response is not valid JSON");
   }
-  if (!body || typeof body !== "object" || typeof (body as Record<string, unknown>).output !== "string") {
+  if (
+    !body ||
+    typeof body !== "object" ||
+    typeof (body as Record<string, unknown>).output !== "string"
+  ) {
     throw new Error("Search response is missing output");
   }
 

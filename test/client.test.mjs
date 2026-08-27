@@ -129,7 +129,11 @@ test("returns output with optional results", async (t) => {
   mockFetch(t, async () => {
     responseNumber++;
     return new Response(
-      JSON.stringify(responseNumber === 1 ? { output: "with results", results: [{ ref_id: "r1" }] } : { output: "without results" }),
+      JSON.stringify(
+        responseNumber === 1
+          ? { output: "with results", results: [{ ref_id: "r1" }] }
+          : { output: "without results" },
+      ),
     );
   });
 
@@ -157,13 +161,17 @@ test("extracts inline images from results", () => {
 });
 
 test("skips non-base64 image data", () => {
-  assert.deepEqual(imagesFromResults([{ mime_type: "image/png", data: "https://example.com/image.png" }]), []);
+  assert.deepEqual(
+    imagesFromResults([{ mime_type: "image/png", data: "https://example.com/image.png" }]),
+    [],
+  );
 });
 
 test("uses the sibling mime type for data URI image data", () => {
-  assert.deepEqual(imagesFromResults([{ mime_type: "image/png", data: "data:image/jpeg;base64,WA==" }]), [
-    { mimeType: "image/png", data: "WA==" },
-  ]);
+  assert.deepEqual(
+    imagesFromResults([{ mime_type: "image/png", data: "data:image/jpeg;base64,WA==" }]),
+    [{ mimeType: "image/png", data: "WA==" }],
+  );
 });
 
 test("extracts multiline data URI images", () => {

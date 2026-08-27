@@ -2,7 +2,8 @@ import type { ExtensionAPI, ExtensionContext } from "@earendil-works/pi-coding-a
 import { search } from "./client.ts";
 import { assertWebParameters, webParameters } from "./schema.ts";
 
-const descriptionIntro = "Access the internet for search, pages, images, finance, weather, sports, and time.";
+const descriptionIntro =
+  "Access the internet for search, pages, images, finance, weather, sports, and time.";
 const usageHints = `## Usage hints
 
 * Use multiple commands and queries in one call to get more results faster.
@@ -42,7 +43,11 @@ export default function (pi: ExtensionAPI) {
       return {
         content: [
           { type: "text", text: output },
-          ...images.map((image) => ({ type: "image" as const, data: image.data, mimeType: image.mimeType })),
+          ...images.map((image) => ({
+            type: "image" as const,
+            data: image.data,
+            mimeType: image.mimeType,
+          })),
         ],
         details: results ? { results } : {},
       };

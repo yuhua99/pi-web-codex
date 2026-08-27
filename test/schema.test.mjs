@@ -34,7 +34,12 @@ test("keeps response_length alongside commands", () => {
 
 test("uses the Codex command enum values", () => {
   assert.deepEqual(webParameters.properties.response_length.enum, ["short", "medium", "long"]);
-  assert.deepEqual(operationSchema("finance").properties.type.enum, ["equity", "fund", "crypto", "index"]);
+  assert.deepEqual(operationSchema("finance").properties.type.enum, [
+    "equity",
+    "fund",
+    "crypto",
+    "index",
+  ]);
   assert.deepEqual(operationSchema("sports").properties.tool.enum, ["sports"]);
   assert.deepEqual(operationSchema("sports").properties.fn.enum, ["schedule", "standings"]);
   assert.deepEqual(operationSchema("sports").properties.league.enum, [
@@ -53,7 +58,16 @@ test("uses the Codex command enum values", () => {
 test("disallows additional properties on every command object", () => {
   assert.equal(operationSchema("search_query").additionalProperties, false);
   assert.equal(operationSchema("image_query").additionalProperties, false);
-  for (const name of ["open", "click", "find", "screenshot", "finance", "weather", "sports", "time"]) {
+  for (const name of [
+    "open",
+    "click",
+    "find",
+    "screenshot",
+    "finance",
+    "weather",
+    "sports",
+    "time",
+  ]) {
     assert.equal(operationSchema(name).additionalProperties, false);
   }
 });
@@ -69,7 +83,9 @@ test("caps search_query at 4 and integers at 0", () => {
 });
 
 test("requires medium or long response_length for 4 search queries", () => {
-  assert.doesNotThrow(() => assertWebParameters({ search_query: [{ q: "a" }, { q: "b" }, { q: "c" }] }));
+  assert.doesNotThrow(() =>
+    assertWebParameters({ search_query: [{ q: "a" }, { q: "b" }, { q: "c" }] }),
+  );
   assert.doesNotThrow(() =>
     assertWebParameters({
       search_query: [{ q: "a" }, { q: "b" }, { q: "c" }, { q: "d" }],
